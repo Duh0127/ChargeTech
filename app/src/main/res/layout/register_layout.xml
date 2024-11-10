@@ -1,6 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#E8F1F2">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="42dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/backToHomePageFromRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="◀"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="40dp"
+            android:paddingTop="24dp"
+            android:paddingRight="40dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:text="Registrar"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <EditText
+                android:id="@+id/nameField"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginBottom="18dp"
+                android:background="#1A898989"
+                android:ems="10"
+                android:hint="Digite seu nome"
+                android:inputType="text"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/emailField"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginBottom="18dp"
+                android:background="#1A898989"
+                android:ems="10"
+                android:hint="Digite seu E-mail"
+                android:inputType="textEmailAddress"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/dateField"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginBottom="18dp"
+                android:background="#1A898989"
+                android:ems="10"
+                android:hint="Digite sua data de nascimento"
+                android:inputType="date"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/passwordField"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginBottom="12dp"
+                android:background="#1A898989"
+                android:ems="10"
+                android:hint="Digite sua senha"
+                android:inputType="textPassword"
+                android:padding="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Gênero"
+                    android:textColor="#626262"
+                    android:textSize="16sp" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroupGenero"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/radioMasculino"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:text="Masculino" />
+
+                    <RadioButton
+                        android:id="@+id/radioFeminino"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:text="Feminino" />
+
+                    <RadioButton
+                        android:id="@+id/radioNenhum"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:text="Prefiro não dizer" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="36dp">
+
+            <Button
+                android:id="@+id/buttonToRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:background="#2E55D7"
+                android:text="Registrar"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/buttonToAccessLoginActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:text="Tenho uma conta"
+                android:textColor="#0037FF" />
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

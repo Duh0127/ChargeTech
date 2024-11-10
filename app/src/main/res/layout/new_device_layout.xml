@@ -16,7 +16,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/backToHomePage"
+                android:id="@+id/backToProfileFromNewDevice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
@@ -29,63 +29,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="48dp">
+            android:paddingTop="12dp"
+            android:paddingHorizontal="32dp">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="Log In"
+                android:text="Novo Dispositivo"
                 android:textColor="#000000"
                 android:textSize="34sp" />
 
             <EditText
-                android:id="@+id/emailField"
+                android:id="@+id/deviceNameField"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginBottom="18dp"
                 android:background="#1A898989"
                 android:ems="10"
-                android:hint="Digite seu E-mail"
-                android:inputType="textEmailAddress"
+                android:hint="Digite o nome"
+                android:inputType="text"
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/passwordField"
+                android:id="@+id/deviceConsumptionField"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
+                android:layout_marginBottom="18dp"
                 android:background="#1A898989"
                 android:ems="10"
-                android:hint="Digite sua senha"
-                android:inputType="textPassword"
+                android:hint="Digite o consumo em KW/h"
+                android:inputType="text"
                 android:padding="8dp" />
 
+            <Spinner
+                android:id="@+id/deviceSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginBottom="18dp"
+                android:background="#1A898989"
+                android:padding="8dp" />
+
+            <Button
+                android:id="@+id/addNewDeviceButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cadastrar"
+                android:textColor="#FFFFFF"
+                android:visibility="visible" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="48dp">
-
-            <Button
-                android:id="@+id/buttonToLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="14dp"
-                android:background="#2E55D7"
-                android:text="Login"
-                android:textColor="#FFFFFF" />
-
-            <Button
-                android:id="@+id/forgotPasswordButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#00FFFFFF"
-                android:text="Esqueci a Senha"
-                android:textColor="#0037FF" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
