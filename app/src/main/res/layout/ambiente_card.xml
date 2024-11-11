@@ -45,7 +45,7 @@
 
             <Button
                 android:id="@+id/addNewDeviceButton"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="8dp"
@@ -53,6 +53,17 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/noDevicesMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Não possui dispositivos"
+            android:textAlignment="center"
+            android:layout_gravity="center_horizontal"
+            android:textAllCaps="false"
+            android:textColor="#C3C3C3"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/devicesList"

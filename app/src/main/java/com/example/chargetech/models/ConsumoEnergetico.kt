@@ -4,7 +4,5 @@ data class ConsumoEnergetico (
     val id_consumo_energetico: Int,
     val id_dispositivo: Int,
     val data_registro: String,
-    val consumo: Double,
-    val custo_consumo: Double,
-    val custo_estimado: Double,
+    val consumo: Double
 )

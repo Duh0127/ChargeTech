@@ -16,7 +16,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/backToProfileFromNewDevice"
+                android:id="@+id/backToProfileFromNewEnvironment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
@@ -37,12 +37,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:text="Novo Dispositivo"
+                android:text="Novo Ambiente"
                 android:textColor="#000000"
                 android:textSize="34sp" />
 
             <EditText
-                android:id="@+id/deviceNameField"
+                android:id="@+id/environmentName"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginBottom="18dp"
@@ -53,21 +53,21 @@
                 android:padding="8dp" />
 
             <EditText
-                android:id="@+id/deviceConsumptionField"
+                android:id="@+id/environmentDescription"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginBottom="18dp"
                 android:background="#1A898989"
                 android:ems="10"
-                android:hint="Digite o consumo em KW/h"
+                android:hint="Digite a descricao"
                 android:inputType="text"
                 android:padding="8dp" />
 
             <Button
-                android:id="@+id/addNewDeviceButton"
+                android:id="@+id/addNewEnvironmentButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#3232D3"
+                android:background="#2B35C7"
                 android:text="Cadastrar"
                 android:textColor="#FFFFFF"
                 android:visibility="visible" />

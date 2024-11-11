@@ -132,9 +132,7 @@ class ProfileActivity : Activity() {
                         id_consumo_energetico = consumoJson.getInt("id_consumo_energetico"),
                         id_dispositivo = consumoJson.getInt("id_dispositivo"),
                         data_registro = formatDate(consumoJson.getString("data_registro")),
-                        consumo = consumoJson.getDouble("consumo"),
-                        custo_consumo = consumoJson.getDouble("custo_consumo"),
-                        custo_estimado = consumoJson.getDouble("custo_estimado")
+                        consumo = consumoJson.getDouble("consumo")
                     )
                     consumoEnergetico.add(consumo)
                 }
@@ -143,7 +141,6 @@ class ProfileActivity : Activity() {
                     id_dispositivo = dispositivoJson.getInt("id_dispositivo"),
                     id_ambiente = dispositivoJson.getInt("id_ambiente"),
                     nome = dispositivoJson.getString("nome"),
-                    imagem = dispositivoJson.getString("imagem"),
                     consumo_medio = dispositivoJson.getDouble("consumo_medio"),
                     status = dispositivoJson.getString("status"),
                     consumo_energetico = consumoEnergetico
@@ -153,6 +150,7 @@ class ProfileActivity : Activity() {
 
             val ambiente = Ambiente(
                 id_ambiente = ambienteJson.getInt("id_ambiente"),
+                id_usuario = 0,
                 nome = ambienteJson.getString("nome"),
                 descricao = ambienteJson.getString("descricao"),
                 dispositivos = dispositivos

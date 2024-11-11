@@ -1,5 +1,6 @@
 package com.example.chargetech.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class AmbienteAdapter(
         private val environmentName: TextView = itemView.findViewById(R.id.environmentName)
         private val environmentDescription: TextView = itemView.findViewById(R.id.environmentDescription)
         private val devicesList: RecyclerView = itemView.findViewById(R.id.devicesList)
+        private val noDevicesMessage: TextView = itemView.findViewById(R.id.noDevicesMessage)
         private val addNewDeviceButton: Button = itemView.findViewById(R.id.addNewDeviceButton)
 
         fun bind(ambiente: Ambiente, isExpanded: Boolean) {
@@ -52,7 +54,19 @@ class AmbienteAdapter(
             devicesList.layoutManager = LinearLayoutManager(itemView.context)
             devicesList.adapter = DispositivoAdapter(ambiente.dispositivos)
 
+            // Mostra a mensagem 'Não possui dispositivos' se a lista estiver vazia
+            if (ambiente.dispositivos.isEmpty()) {
+                noDevicesMessage.visibility = View.VISIBLE
+                devicesList.visibility = View.GONE
+            } else {
+                noDevicesMessage.visibility = View.GONE
+                devicesList.visibility = if (isExpanded) View.VISIBLE else View.GONE
+            }
+
             addNewDeviceButton.setOnClickListener {
+                val sharedPreferences = itemView.context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putInt("selected_environment_id", ambiente.id_ambiente).apply()
+
                 onAddDeviceClick(ambiente)
             }
 

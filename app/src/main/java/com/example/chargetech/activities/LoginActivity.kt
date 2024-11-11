@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -49,7 +50,7 @@ class LoginActivity : Activity() {
                                 nome = usuarioJson.getString("nome"),
                                 email = usuarioJson.getString("email"),
                                 data_nascimento = usuarioJson.getString("data_nascimento"),
-                                senha = passwordData // Salva a senha fornecida pelo usuário
+                                senha = ""
                             )
 
                             // Salvar no SharedPreferences
@@ -79,6 +80,8 @@ class LoginActivity : Activity() {
     }
 
     private fun saveUserData(usuario: Usuario, token: String) {
+        Log.v("Login", "${usuario}")
+        Log.v("Login", "ID_USUARIO - ${usuario.id_usuario}")
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             putInt("id_usuario", usuario.id_usuario)

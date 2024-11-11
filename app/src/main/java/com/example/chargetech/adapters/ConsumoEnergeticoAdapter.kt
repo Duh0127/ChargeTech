@@ -27,12 +27,10 @@ class ConsumoEnergeticoAdapter(
     inner class ConsumoEnergeticoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val dataRegistro: TextView = itemView.findViewById(R.id.dataRegistro)
         private val consumo: TextView = itemView.findViewById(R.id.consumo)
-        private val custoConsumo: TextView = itemView.findViewById(R.id.custoConsumo)
 
         fun bind(consumoEnergetico: ConsumoEnergetico) {
             dataRegistro.text = consumoEnergetico.data_registro
             consumo.text = "${consumoEnergetico.consumo} kWh"
-            custoConsumo.text = "R$ ${consumoEnergetico.custo_estimado}"
         }
     }
 }
