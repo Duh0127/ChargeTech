@@ -26,9 +26,9 @@
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.NewDeviceActivity" />
         <activity android:name=".activities.NewEnvironmentActivity" />
+        <activity android:name=".activities.NewEnergyConsumptionActivity" />
 
 
         <meta-data

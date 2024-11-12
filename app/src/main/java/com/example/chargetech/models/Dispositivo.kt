@@ -6,5 +6,5 @@ data class Dispositivo (
     val nome: String,
     val consumo_medio: Double,
     val status: String,
-    val consumo_energetico: List<ConsumoEnergetico> = emptyList()
+    val consumo_energetico: MutableList<ConsumoEnergetico>
 )

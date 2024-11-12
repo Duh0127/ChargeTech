@@ -72,10 +72,10 @@ class LoginActivity : Activity() {
             }
         }
 
-        val buttonToGoOnForgotPassword = findViewById<Button>(R.id.forgotPasswordButton)
-        buttonToGoOnForgotPassword.setOnClickListener {
-            val forgotPasswordIntent = Intent(this, ForgotPasswordActivity::class.java)
-            startActivity(forgotPasswordIntent)
+        val createNewAccountButton = findViewById<Button>(R.id.createNewAccountButton)
+        createNewAccountButton.setOnClickListener {
+            val createNewAccountIntent = Intent(this, RegisterActivity::class.java)
+            startActivity(createNewAccountIntent)
         }
     }
 

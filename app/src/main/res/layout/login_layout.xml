@@ -80,11 +80,11 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/forgotPasswordButton"
+                android:id="@+id/createNewAccountButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
-                android:text="Esqueci a Senha"
+                android:text="Criar uma conta"
                 android:textColor="#0037FF" />
         </LinearLayout>
     </LinearLayout>

@@ -72,7 +72,7 @@
                 android:background="#1A898989"
                 android:ems="10"
                 android:hint="Digite sua data de nascimento"
-                android:inputType="date"
+                android:inputType="text"
                 android:padding="8dp" />
 
             <EditText

@@ -33,7 +33,7 @@
             android:paddingHorizontal="32dp">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/titleNewDevice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -59,8 +59,8 @@
                 android:layout_marginBottom="18dp"
                 android:background="#1A898989"
                 android:ems="10"
-                android:hint="Digite o consumo em KW/h"
-                android:inputType="text"
+                android:hint="Digite o consumo médio em KW/h"
+                android:inputType="number"
                 android:padding="8dp" />
 
             <Button
@@ -71,6 +71,14 @@
                 android:text="Cadastrar"
                 android:textColor="#FFFFFF"
                 android:visibility="visible" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:indeterminate="true" />
 
         </LinearLayout>
 

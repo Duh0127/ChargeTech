@@ -30,6 +30,8 @@ class ProfileActivity : Activity() {
     private val tokenRepository = TokenRepository()
     private val profileRepository = ProfileRepository()
 
+    private var dataLoaded = false
+
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.profile_layout)
@@ -92,16 +94,21 @@ class ProfileActivity : Activity() {
 
                                     val ambientes = parseAmbientes(userProfileJson)
                                     fetchUserAmbientes(ambientes)
+
+                                    dataLoaded = true
+                                    hideLoading(progressBar, profileLayout)
                                 } else {
                                     Toast.makeText(this, profileErrorMessage, Toast.LENGTH_LONG).show()
+                                    dataLoaded = true
+                                    hideLoading(progressBar, profileLayout)
                                 }
                             }
                         }
                     } else {
                         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                        dataLoaded = true
+                        hideLoading(progressBar, profileLayout)
                     }
-                    progressBar.visibility = ProgressBar.GONE
-                    profileLayout.visibility = LinearLayout.VISIBLE
                 }
             }
         } else {
@@ -113,7 +120,14 @@ class ProfileActivity : Activity() {
         }
     }
 
-    private fun parseAmbientes(userProfileJson: JSONObject): List<Ambiente> {
+    private fun hideLoading(progressBar: ProgressBar, profileLayout: LinearLayout) {
+        if (dataLoaded) {
+            progressBar.visibility = ProgressBar.GONE
+            profileLayout.visibility = LinearLayout.VISIBLE
+        }
+    }
+
+    private fun parseAmbientes(userProfileJson: JSONObject): MutableList<Ambiente> {
         val ambientes = mutableListOf<Ambiente>()
         val ambientesJsonArray = userProfileJson.getJSONArray("ambientes")
         for (i in 0 until ambientesJsonArray.length()) {
@@ -160,16 +174,26 @@ class ProfileActivity : Activity() {
         return ambientes
     }
 
-    private fun fetchUserAmbientes(ambientes: List<Ambiente>) {
+    private fun fetchUserAmbientes(ambientes: MutableList<Ambiente>) {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewEnvironments)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val ambienteAdapter = AmbienteAdapter(ambientes) { ambiente ->
-            // Quando o botão para adicionar dispositivo é clicado, redireciona para a NewDeviceActivity
-            val newDeviceIntent = Intent(this@ProfileActivity, NewDeviceActivity::class.java)
-            startActivity(newDeviceIntent)
+        val noEnvironmentsMessage = findViewById<TextView>(R.id.noEnvironmentsMessage)
+
+        if (ambientes.isEmpty()) {
+            noEnvironmentsMessage.visibility = TextView.VISIBLE
+            recyclerView.visibility = RecyclerView.GONE
+        } else {
+            noEnvironmentsMessage.visibility = TextView.GONE
+            recyclerView.visibility = RecyclerView.VISIBLE
+
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            val ambienteAdapter = AmbienteAdapter(ambientes) { ambiente ->
+                val newDeviceIntent = Intent(this@ProfileActivity, NewDeviceActivity::class.java)
+                startActivity(newDeviceIntent)
+            }
+            recyclerView.adapter = ambienteAdapter
         }
-        recyclerView.adapter = ambienteAdapter
     }
+
 
     private fun formatName(name: String): String {
         val nameParts = name.split(" ")
@@ -195,5 +219,5 @@ class ProfileActivity : Activity() {
             return dateString
         }
     }
-
 }
+

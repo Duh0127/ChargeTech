@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import com.example.chargetech.R
 import com.example.chargetech.models.Ambiente
@@ -31,40 +33,72 @@ class NewEnvironmentActivity : Activity() {
             startActivity(profileIntent)
         }
 
-        var nome = findViewById<EditText>(R.id.environmentName)
-        var descricao = findViewById<EditText>(R.id.environmentDescription)
-
+        val title = findViewById<TextView>(R.id.titleEnvironment)
+        val nome = findViewById<EditText>(R.id.environmentName)
+        val descricao = findViewById<EditText>(R.id.environmentDescription)
         val registerButton = findViewById<Button>(R.id.addNewEnvironmentButton)
-        registerButton.setOnClickListener {
-            ambienteRepository.register(nome = nome.text.toString(), descricao = descricao.text.toString(), id_usuario = id_usuario) { jsonObject, errorMessage ->
+        val progressBar = findViewById<ProgressBar>(R.id.loadingProgressBar)
+
+        val idAmbiente = intent.getIntExtra("id_ambiente", -1)
+
+        if (idAmbiente != -1) {
+            title.setText("Atualizar Ambiente")
+            registerButton.setText("Atualizar")
+            ambienteRepository.getById(idAmbiente) { ambiente, errorMessage ->
                 runOnUiThread {
-                    if (jsonObject != null) {
-                        try {
-                            Toast.makeText(this, "Ambiente cadastrado com Sucesso!", Toast.LENGTH_LONG).show()
-                            val profileIntent = Intent(this@NewEnvironmentActivity, ProfileActivity::class.java)
-                            startActivity(profileIntent)
-                            finish()
-                        } catch (e: Exception) {
-                            Toast.makeText(this, "Erro ao processar dados do usuário", Toast.LENGTH_LONG).show()
-                        }
+                    if (ambiente != null) {
+                        nome.setText(ambiente.nome)
+                        descricao.setText(ambiente.descricao)
                     } else {
-                        Toast.makeText(this, errorMessage ?: "Erro ao realizar login", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Erro ao buscar ambiente: $errorMessage", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         }
 
+        registerButton.setOnClickListener {
+            val nomeInput = nome.text.toString()
+            val descricaoInput = descricao.text.toString()
 
+            // Exibir o ProgressBar e esconder o botão
+            registerButton.visibility = Button.GONE
+            progressBar.visibility = ProgressBar.VISIBLE
 
+            if (idAmbiente == -1) {
+                ambienteRepository.register(nome = nomeInput, descricao = descricaoInput, id_usuario = id_usuario) { jsonObject, errorMessage ->
+                    runOnUiThread {
+                        // Esconder o ProgressBar e mostrar o botão novamente
+                        progressBar.visibility = ProgressBar.GONE
+                        registerButton.visibility = Button.VISIBLE
 
+                        if (jsonObject != null) {
+                            Toast.makeText(this, "Ambiente cadastrado com sucesso!", Toast.LENGTH_LONG).show()
+                            val profileIntent = Intent(this@NewEnvironmentActivity, ProfileActivity::class.java)
+                            startActivity(profileIntent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, errorMessage ?: "Erro ao criar ambiente", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            } else {
+                ambienteRepository.update(idAmbiente, nome = nomeInput, descricao = descricaoInput) { jsonObject, errorMessage ->
+                    runOnUiThread {
+                        // Esconder o ProgressBar e mostrar o botão novamente
+                        progressBar.visibility = ProgressBar.GONE
+                        registerButton.visibility = Button.VISIBLE
 
+                        if (jsonObject != null) {
+                            Toast.makeText(this, "Ambiente atualizado com sucesso!", Toast.LENGTH_LONG).show()
+                            val profileIntent = Intent(this@NewEnvironmentActivity, ProfileActivity::class.java)
+                            startActivity(profileIntent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, errorMessage ?: "Erro ao atualizar ambiente", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+        }
     }
-
-
-
-
-
-
-
-
 }

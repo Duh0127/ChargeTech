@@ -126,6 +126,16 @@
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1" />
 
+            <TextView
+                android:id="@+id/noEnvironmentsMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nenhum ambiente cadastrado"
+                android:textSize="16sp"
+                android:textColor="#CCC"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
         </LinearLayout>
 
     </LinearLayout>

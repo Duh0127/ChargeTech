@@ -5,5 +5,5 @@ data class Ambiente (
     val id_usuario: Int,
     val nome: String,
     val descricao: String,
-    val dispositivos: List<Dispositivo> = emptyList()
+    val dispositivos: MutableList<Dispositivo>
 )

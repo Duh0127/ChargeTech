@@ -1,17 +1,25 @@
 package com.example.chargetech.adapters
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chargetech.R
+import com.example.chargetech.activities.NewDeviceActivity
+import com.example.chargetech.activities.NewEnergyConsumptionActivity
+import com.example.chargetech.activities.ProfileActivity
 import com.example.chargetech.models.Dispositivo
+import com.example.chargetech.repositories.DeviceRepository
 
 class DispositivoAdapter(
-    private val dispositivos: List<Dispositivo>
+    private val dispositivos: MutableList<Dispositivo>
 ) : RecyclerView.Adapter<DispositivoAdapter.DispositivoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DispositivoViewHolder {
@@ -28,29 +36,29 @@ class DispositivoAdapter(
 
     inner class DispositivoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val deviceName: TextView = itemView.findViewById(R.id.deviceName)
-        private val deviceStatus: TextView = itemView.findViewById(R.id.deviceStatus)
+        private val avgConsumption: TextView = itemView.findViewById(R.id.avgConsumption)
+        private val addConsumoButton: Button = itemView.findViewById(R.id.addConsumoButton)
+        private val editDeviceButton: Button = itemView.findViewById(R.id.editDeviceButton)
+        private val deleteDeviceButton: Button = itemView.findViewById(R.id.deleteDeviceButton)
         private val consumoEnergeticoRecyclerView: RecyclerView = itemView.findViewById(R.id.consumoEnergeticoRecyclerView)
         private val noConsumoMessage: TextView = itemView.findViewById(R.id.noConsumoMessage)
+        private val clickToExpandText: TextView = itemView.findViewById(R.id.clickToExpandDevice)
         private var isExpanded = false
 
         fun bind(dispositivo: Dispositivo) {
             deviceName.text = dispositivo.nome
-            deviceStatus.text = dispositivo.status
+            avgConsumption.text = "Consumo médio: ${dispositivo.consumo_medio}KW/h"
 
-            // Configuração do adapter do RecyclerView de consumo energético
             val consumoAdapter = ConsumoEnergeticoAdapter(dispositivo.consumo_energetico)
             consumoEnergeticoRecyclerView.adapter = consumoAdapter
             consumoEnergeticoRecyclerView.layoutManager = LinearLayoutManager(itemView.context)
 
-            // Inicialmente, escondemos a mensagem de "Não possui consumo energético"
             noConsumoMessage.visibility = View.GONE
 
-            // Configuração do clique para expandir o card e exibir o RecyclerView
             itemView.setOnClickListener {
                 isExpanded = !isExpanded
-                // Quando expandido, verificamos a lista de consumos energéticos
                 if (isExpanded) {
-                    // Se a lista estiver vazia, exibe a mensagem
+                    clickToExpandText.visibility = View.GONE
                     if (dispositivo.consumo_energetico.isEmpty()) {
                         noConsumoMessage.visibility = View.VISIBLE
                     } else {
@@ -59,8 +67,53 @@ class DispositivoAdapter(
                 } else {
                     consumoEnergeticoRecyclerView.visibility = View.GONE
                     noConsumoMessage.visibility = View.GONE
+                    clickToExpandText.visibility = View.VISIBLE
                 }
             }
+
+            addConsumoButton.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, NewEnergyConsumptionActivity::class.java)
+                intent.putExtra("id_dispositivo", dispositivo.id_dispositivo)
+                context.startActivity(intent)
+            }
+
+            editDeviceButton.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, NewDeviceActivity::class.java)
+                intent.putExtra("id_dispositivo", dispositivo.id_dispositivo)
+                context.startActivity(intent)
+            }
+
+            deleteDeviceButton.setOnClickListener {
+                val context = itemView.context
+                val dispositivoId = dispositivo.id_dispositivo
+
+                val alertDialog = android.app.AlertDialog.Builder(context)
+                    .setTitle("Excluir dispositivo")
+                    .setMessage("Você tem certeza que deseja excluir este dispositivo?")
+                    .setPositiveButton("Sim") { dialog, _ ->
+                        val deviceRepository = DeviceRepository()
+                        deviceRepository.delete(dispositivoId) { success, errorMessage ->
+                            if (success) {
+                                dispositivos.removeAt(bindingAdapterPosition)
+                                var profileIntent = Intent(context, ProfileActivity::class.java)
+                                context.startActivity(profileIntent)
+                            } else {
+                                android.widget.Toast.makeText(context, errorMessage ?: "Erro desconhecido", android.widget.Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Não") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                    .create()
+
+                alertDialog.show()
+            }
+
+
         }
     }
 }
