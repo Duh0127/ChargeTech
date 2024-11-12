@@ -53,8 +53,7 @@ class NewEnergyConsumptionActivity : Activity() {
                                 "Consumo cadastrado com Sucesso!",
                                 Toast.LENGTH_LONG
                             ).show()
-                            val profileIntent =
-                                Intent(this@NewEnergyConsumptionActivity, ProfileActivity::class.java)
+                            val profileIntent = Intent(this@NewEnergyConsumptionActivity, ProfileActivity::class.java)
                             startActivity(profileIntent)
                             finish()
                         } catch (e: Exception) {
@@ -71,12 +70,5 @@ class NewEnergyConsumptionActivity : Activity() {
                 }
             }
         }
-
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
     }
 }

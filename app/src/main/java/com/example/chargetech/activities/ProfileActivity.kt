@@ -36,6 +36,16 @@ class ProfileActivity : Activity() {
         super.onCreate(bundle)
         setContentView(R.layout.profile_layout)
 
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
+        if (token == null) {
+            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
+            startActivity(homePageIntent)
+            finish()
+            return
+        }
+
         val profileImg = findViewById<ImageView>(R.id.profileImage)
         profileImg.setImageResource(R.drawable.logo_chargetech)
 
