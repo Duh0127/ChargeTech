@@ -11,9 +11,8 @@ import okhttp3.Response
 import java.io.IOException
 
 class RegisterRepository () {
-
     private val client = OkHttpClient()
-    private val BASE_URL = "https://569586ab-db4d-4447-b516-9032818e8306-00-25w7cq51q41rq.janeway.replit.dev"
+    private val BASE_URL = "https://bc060a2d-0ae5-421b-bd41-9bdac6557ef0-00-6zly8cho0nxy.riker.replit.dev"
 
     fun register(
         nome: String,
@@ -47,12 +46,12 @@ class RegisterRepository () {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     callback(true, "Usuário cadastrado com sucesso!")
+                } else if (response.code == 400){
+                    callback(false, "Usuario já cadastrado no sistema")
                 } else {
-                    callback(false, "Informações de cadastro inválidas")
+                    callback(false, "Erro ao realizar cadastro")
                 }
             }
         })
     }
-
-
 }

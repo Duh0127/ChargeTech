@@ -23,15 +23,10 @@ class NewEnvironmentActivity : Activity() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.new_environment_layout)
+        backToProfileButton()
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val id_usuario = sharedPreferences.getInt("id_usuario", 0)
-
-        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewEnvironment)
-        buttonToBack.setOnClickListener {
-            var profileIntent = Intent(this@NewEnvironmentActivity, ProfileActivity::class.java)
-            startActivity(profileIntent)
-        }
 
         val title = findViewById<TextView>(R.id.titleEnvironment)
         val nome = findViewById<EditText>(R.id.environmentName)
@@ -60,14 +55,12 @@ class NewEnvironmentActivity : Activity() {
             val nomeInput = nome.text.toString()
             val descricaoInput = descricao.text.toString()
 
-            // Exibir o ProgressBar e esconder o botão
             registerButton.visibility = Button.GONE
             progressBar.visibility = ProgressBar.VISIBLE
 
             if (idAmbiente == -1) {
                 ambienteRepository.register(nome = nomeInput, descricao = descricaoInput, id_usuario = id_usuario) { jsonObject, errorMessage ->
                     runOnUiThread {
-                        // Esconder o ProgressBar e mostrar o botão novamente
                         progressBar.visibility = ProgressBar.GONE
                         registerButton.visibility = Button.VISIBLE
 
@@ -84,7 +77,6 @@ class NewEnvironmentActivity : Activity() {
             } else {
                 ambienteRepository.update(idAmbiente, nome = nomeInput, descricao = descricaoInput) { jsonObject, errorMessage ->
                     runOnUiThread {
-                        // Esconder o ProgressBar e mostrar o botão novamente
                         progressBar.visibility = ProgressBar.GONE
                         registerButton.visibility = Button.VISIBLE
 
@@ -99,6 +91,15 @@ class NewEnvironmentActivity : Activity() {
                     }
                 }
             }
+        }
+    }
+
+
+    private fun backToProfileButton() {
+        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewEnvironment)
+        buttonToBack.setOnClickListener {
+            var profileIntent = Intent(this@NewEnvironmentActivity, ProfileActivity::class.java)
+            startActivity(profileIntent)
         }
     }
 }

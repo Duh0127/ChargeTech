@@ -22,23 +22,17 @@ class NewDeviceActivity : Activity() {
         super.onCreate(bundle)
         setContentView(R.layout.new_device_layout)
 
-        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewDevice)
+        backToProfileActivity()
+
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         val registerButton = findViewById<Button>(R.id.addNewDeviceButton)
-
-        buttonToBack.setOnClickListener {
-            val profileIntent = Intent(this@NewDeviceActivity, ProfileActivity::class.java)
-            startActivity(profileIntent)
-        }
 
         val title = findViewById<TextView>(R.id.titleNewDevice)
         val nomeField = findViewById<EditText>(R.id.deviceNameField)
         val consumptionField = findViewById<EditText>(R.id.deviceConsumptionField)
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val id_ambiente = sharedPreferences.getInt("selected_environment_id", -1)
-
         val idDispositivo = intent.getIntExtra("id_dispositivo", -1)
-        Log.v("DISPOSITIVO", "${idDispositivo}")
 
         if (idDispositivo != -1) {
             title.setText("Atualizar Dispositivo")
@@ -114,4 +108,14 @@ class NewDeviceActivity : Activity() {
             }
         }
     }
+
+
+    private fun backToProfileActivity() {
+        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewDevice)
+        buttonToBack.setOnClickListener {
+            val profileIntent = Intent(this@NewDeviceActivity, ProfileActivity::class.java)
+            startActivity(profileIntent)
+        }
+    }
+
 }

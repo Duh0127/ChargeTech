@@ -35,37 +35,10 @@ class ProfileActivity : Activity() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.profile_layout)
-
-        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", null)
-
-        if (token == null) {
-            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
-            startActivity(homePageIntent)
-            finish()
-            return
-        }
-
-        val profileImg = findViewById<ImageView>(R.id.profileImage)
-        profileImg.setImageResource(R.drawable.logo_chargetech)
-
-        val logoutButton = findViewById<Button>(R.id.logoutButton)
-        logoutButton.setOnClickListener {
-            val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-            val editor = sharedPreferences.edit()
-            editor.clear()
-            editor.apply()
-
-            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
-            startActivity(homePageIntent)
-            finish()
-        }
-
-        val addNewEnvironmentButton = findViewById<Button>(R.id.addNewEnvironmentButton)
-        addNewEnvironmentButton.setOnClickListener {
-            val newEnvironmentActivity = Intent(this@ProfileActivity, NewEnvironmentActivity::class.java)
-            startActivity(newEnvironmentActivity)
-        }
+        verifyIfIsLogged()
+        setProfileImage()
+        logoutButton()
+        addNewEnvironmentButton()
     }
 
     override fun onStart() {
@@ -79,7 +52,6 @@ class ProfileActivity : Activity() {
 
         val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", "N/A")
-        Log.v("ProfileActivity", "Token: $token")
 
         if (token != null) {
             tokenRepository.decodeToken(token) { jsonObject, errorMessage ->
@@ -124,9 +96,7 @@ class ProfileActivity : Activity() {
         } else {
             Toast.makeText(this, "Token não encontrado", Toast.LENGTH_LONG).show()
             progressBar.visibility = ProgressBar.GONE
-            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
-            startActivity(homePageIntent)
-            finish()
+            backToHomePageActivity()
         }
     }
 
@@ -204,7 +174,6 @@ class ProfileActivity : Activity() {
         }
     }
 
-
     private fun formatName(name: String): String {
         val nameParts = name.split(" ")
         return when (nameParts.size) {
@@ -229,5 +198,49 @@ class ProfileActivity : Activity() {
             return dateString
         }
     }
-}
 
+    private fun verifyIfIsLogged() {
+        val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
+        if (token == null) {
+            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
+            startActivity(homePageIntent)
+            finish()
+            return
+        }
+    }
+
+    private fun setProfileImage() {
+        val profileImg = findViewById<ImageView>(R.id.profileImage)
+        profileImg.setImageResource(R.drawable.logo_chargetech)
+    }
+
+    private fun logoutButton() {
+        val logoutButton = findViewById<Button>(R.id.logoutButton)
+        logoutButton.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+
+            val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
+            startActivity(homePageIntent)
+            finish()
+        }
+    }
+
+    private fun addNewEnvironmentButton() {
+        val addNewEnvironmentButton = findViewById<Button>(R.id.addNewEnvironmentButton)
+        addNewEnvironmentButton.setOnClickListener {
+            val newEnvironmentActivity = Intent(this@ProfileActivity, NewEnvironmentActivity::class.java)
+            startActivity(newEnvironmentActivity)
+        }
+    }
+
+    private fun backToHomePageActivity() {
+        val homePageIntent = Intent(this@ProfileActivity, HomePageActivity::class.java)
+        startActivity(homePageIntent)
+        finish()
+    }
+}

@@ -112,8 +112,6 @@ class DispositivoAdapter(
 
                 alertDialog.show()
             }
-
-
         }
     }
 }

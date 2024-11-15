@@ -38,11 +38,9 @@ class ConsumoEnergeticoAdapter(
             dataRegistro.text = consumoEnergetico.data_registro
             consumo.text = "${consumoEnergetico.consumo} kWh"
 
-            // Configura o botão de deletar
             deleteButton.setOnClickListener {
                 consumoEnergeticoRepository.deleteById(consumoEnergetico.id_consumo_energetico) { success ->
                     if (success) {
-                        // Remove o item da lista e notifica o adapter
                         val position = adapterPosition
                         if (position != RecyclerView.NO_POSITION) {
                             consumos.removeAt(position)

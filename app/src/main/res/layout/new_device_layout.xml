@@ -60,7 +60,7 @@
                 android:background="#1A898989"
                 android:ems="10"
                 android:hint="Digite o consumo médio em KW/h"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:padding="8dp" />
 
             <Button

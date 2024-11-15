@@ -6,14 +6,13 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import com.example.chargetech.R
 import com.example.chargetech.repositories.RegisterRepository
-import java.util.regex.Pattern
 
 class RegisterActivity : Activity() {
 
@@ -23,18 +22,8 @@ class RegisterActivity : Activity() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.register_layout)
-
-        val buttonToBackToHomePage = findViewById<Button>(R.id.backToHomePageFromRegister)
-        buttonToBackToHomePage.setOnClickListener {
-            val homePageIntent = Intent(this, HomePageActivity::class.java)
-            startActivity(homePageIntent)
-        }
-
-        val buttonToLoginActivity = findViewById<Button>(R.id.buttonToAccessLoginActivity)
-        buttonToLoginActivity.setOnClickListener {
-            val loginIntent = Intent(this, LoginActivity::class.java)
-            startActivity(loginIntent)
-        }
+        backToHomePageButton()
+        buttonToAccessLoginActivity()
 
         val registerButton = findViewById<Button>(R.id.buttonToRegister)
         val nameField = findViewById<EditText>(R.id.nameField)
@@ -43,7 +32,6 @@ class RegisterActivity : Activity() {
         val passwordField = findViewById<EditText>(R.id.passwordField)
         val radioGroupGenero = findViewById<RadioGroup>(R.id.radioGroupGenero)
 
-        // Listener para capturar o ID do gênero selecionado
         radioGroupGenero.setOnCheckedChangeListener { group, checkedId ->
             idGeneroSelecionado = when (checkedId) {
                 R.id.radioMasculino -> 1
@@ -67,14 +55,9 @@ class RegisterActivity : Activity() {
                     isUpdating = false
                     return
                 }
-
-                // Remove caracteres não numéricos
                 var newText = s.toString().replace(Regex("[^0-9]"), "")
-
-                // Limita o tamanho máximo para 8 dígitos (DDMMYYYY)
                 if (newText.length > 8) newText = newText.substring(0, 8)
 
-                // Aplica a máscara
                 var formattedText = ""
                 var i = 0
                 mask.forEach { c ->
@@ -86,7 +69,6 @@ class RegisterActivity : Activity() {
                     }
                 }
 
-                // Atualiza o campo de forma segura
                 isUpdating = true
                 dateField.setText(formattedText)
                 dateField.setSelection(formattedText.length)
@@ -95,7 +77,6 @@ class RegisterActivity : Activity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-        // Validação para o botão de cadastro
         registerButton.setOnClickListener {
             val nameData = nameField.text.toString()
             val emailData = emailField.text.toString()
@@ -111,21 +92,56 @@ class RegisterActivity : Activity() {
                     id_genero = idGeneroSelecionado
                 ) { success, errorMessage ->
                     runOnUiThread {
-                        if (success) {
-                            handleSuccessfulRegistration()
-                        } else {
-                            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
-                        }
+                        if (success) handleSuccessfulRegistration()
+                        else Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
                     }
                 }
-            } else {
-                Toast.makeText(this, "Por favor, preencha todos os campos.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun validateInputs(name: String, email: String, date: String, password: String): Boolean {
-        return name.isNotEmpty() && email.isNotEmpty() && date.isNotEmpty() && password.isNotEmpty() && idGeneroSelecionado != null
+        if (name.isEmpty()) {
+            Toast.makeText(this, "Por favor, insira o nome.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Por favor, insira o e-mail.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Por favor, insira um e-mail válido.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (date.isEmpty()) {
+            Toast.makeText(this, "Por favor, insira a data de nascimento.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password.isEmpty()) {
+            Toast.makeText(this, "Por favor, insira a senha.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password.length < 5) {
+            Toast.makeText(this, "A senha deve ter pelo menos 5 caracteres.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (!password.any { it.isUpperCase() }) {
+            Toast.makeText(this, "A senha deve conter pelo menos uma letra maiúscula.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (idGeneroSelecionado == null) {
+            Toast.makeText(this, "Por favor, selecione um gênero.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 
     private fun handleSuccessfulRegistration() {
@@ -148,5 +164,21 @@ class RegisterActivity : Activity() {
         val loginIntent = Intent(this, LoginActivity::class.java)
         startActivity(loginIntent)
         finish()
+    }
+
+    private fun backToHomePageButton() {
+        val buttonToBackToHomePage = findViewById<Button>(R.id.backToHomePageFromRegister)
+        buttonToBackToHomePage.setOnClickListener {
+            val homePageIntent = Intent(this, HomePageActivity::class.java)
+            startActivity(homePageIntent)
+        }
+    }
+
+    private fun buttonToAccessLoginActivity() {
+        val buttonToLoginActivity = findViewById<Button>(R.id.buttonToAccessLoginActivity)
+        buttonToLoginActivity.setOnClickListener {
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
+        }
     }
 }

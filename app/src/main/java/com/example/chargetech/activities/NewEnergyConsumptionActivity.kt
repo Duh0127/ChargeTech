@@ -18,21 +18,21 @@ class NewEnergyConsumptionActivity : Activity() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         setContentView(R.layout.new_consumption_layout)
+        backToProfileButton()
 
-        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewConsumption)
-        buttonToBack.setOnClickListener {
-            var profileIntent = Intent(this@NewEnergyConsumptionActivity, ProfileActivity::class.java)
-            startActivity(profileIntent)
-            finish()
-        }
-        val consumptionField = findViewById<EditText>(R.id.consumptionField)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val consumptionField = findViewById<EditText>(R.id.consumptionField)
 
         val registerButton = findViewById<Button>(R.id.addNewConsumptionButton)
         registerButton.setOnClickListener {
+            if (consumptionField == null) {
+                Toast.makeText(this, "Por favor, preencha o consumo", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             val id_dispositivo = intent.getIntExtra("id_dispositivo", 0)
-            var consumoData = consumptionField.text.toString().toDouble()
-            var consumoEnergetico = ConsumoEnergetico(
+            val consumoData = consumptionField.text.toString().toDouble()
+            val consumoEnergetico = ConsumoEnergetico(
                 id_dispositivo = id_dispositivo,
                 consumo = consumoData,
                 data_registro = "",
@@ -71,4 +71,15 @@ class NewEnergyConsumptionActivity : Activity() {
             }
         }
     }
+
+
+    private fun backToProfileButton() {
+        val buttonToBack = findViewById<Button>(R.id.backToProfileFromNewConsumption)
+        buttonToBack.setOnClickListener {
+            val profileIntent = Intent(this@NewEnergyConsumptionActivity, ProfileActivity::class.java)
+            startActivity(profileIntent)
+            finish()
+        }
+    }
+
 }

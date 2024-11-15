@@ -11,10 +11,8 @@ import org.json.JSONObject
 import java.io.IOException
 
 class LoginRepository () {
-
     private val client = OkHttpClient()
-    private val BASE_URL = "https://569586ab-db4d-4447-b516-9032818e8306-00-25w7cq51q41rq.janeway.replit.dev"
-
+    private val BASE_URL = "https://bc060a2d-0ae5-421b-bd41-9bdac6557ef0-00-6zly8cho0nxy.riker.replit.dev"
 
     fun login(email: String, password: String, callback: (JSONObject?, String?) -> Unit) {
         val jsonBody = """

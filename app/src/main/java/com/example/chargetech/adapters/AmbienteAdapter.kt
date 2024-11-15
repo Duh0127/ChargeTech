@@ -10,11 +10,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chargetech.R
-import com.example.chargetech.activities.NewDeviceActivity
 import com.example.chargetech.activities.NewEnvironmentActivity
 import com.example.chargetech.activities.ProfileActivity
 import com.example.chargetech.models.Ambiente
-import com.example.chargetech.models.Dispositivo
 import com.example.chargetech.repositories.AmbienteRepository
 
 class AmbienteAdapter(
@@ -62,7 +60,6 @@ class AmbienteAdapter(
             devicesList.layoutManager = LinearLayoutManager(itemView.context)
             devicesList.adapter = DispositivoAdapter(ambiente.dispositivos)
 
-            // Mostra a mensagem 'Não possui dispositivos' se a lista estiver vazia
             if (ambiente.dispositivos.isEmpty()) {
                 noDevicesMessage.visibility = View.VISIBLE
                 devicesList.visibility = View.GONE
@@ -90,7 +87,6 @@ class AmbienteAdapter(
                     .setTitle("Excluir ambiente")
                     .setMessage("Você tem certeza que deseja excluir este ambiente?")
                     .setPositiveButton("Sim") { dialog, _ ->
-                        // Usa bindingAdapterPosition para garantir que o ambiente correto seja removido
                         val position = bindingAdapterPosition
                         if (position != RecyclerView.NO_POSITION) {
                             ambienteRepository.delete(ambiente.id_ambiente) { success, errorMessage ->
@@ -112,7 +108,6 @@ class AmbienteAdapter(
 
                 alertDialog.show()
             }
-
 
             devicesList.visibility = if (isExpanded) View.VISIBLE else View.GONE
         }
