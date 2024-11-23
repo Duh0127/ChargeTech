@@ -25,7 +25,8 @@ class NewEnergyConsumptionActivity : Activity() {
 
         val registerButton = findViewById<Button>(R.id.addNewConsumptionButton)
         registerButton.setOnClickListener {
-            if (consumptionField == null) {
+            val consumptionFieldText = consumptionField.text.toString()
+            if (consumptionFieldText.isEmpty()) {
                 Toast.makeText(this, "Por favor, preencha o consumo", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }

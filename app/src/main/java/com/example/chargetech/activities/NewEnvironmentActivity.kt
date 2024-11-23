@@ -55,6 +55,16 @@ class NewEnvironmentActivity : Activity() {
             val nomeInput = nome.text.toString()
             val descricaoInput = descricao.text.toString()
 
+            if (nomeInput.isEmpty()) {
+                Toast.makeText(this, "Por favor, insira o nome do ambiente.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (descricaoInput.isEmpty()) {
+                Toast.makeText(this, "Por favor, insira a descricao do ambiente.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             registerButton.visibility = Button.GONE
             progressBar.visibility = ProgressBar.VISIBLE
 

@@ -1,19 +1,15 @@
 package com.example.chargetech.adapters
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chargetech.R
 import com.example.chargetech.activities.NewDeviceActivity
-import com.example.chargetech.activities.NewEnergyConsumptionActivity
 import com.example.chargetech.activities.ProfileActivity
 import com.example.chargetech.models.Dispositivo
 import com.example.chargetech.repositories.DeviceRepository
@@ -37,7 +33,7 @@ class DispositivoAdapter(
     inner class DispositivoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val deviceName: TextView = itemView.findViewById(R.id.deviceName)
         private val avgConsumption: TextView = itemView.findViewById(R.id.avgConsumption)
-        private val addConsumoButton: Button = itemView.findViewById(R.id.addConsumoButton)
+//        private val addConsumoButton: Button = itemView.findViewById(R.id.addConsumoButton)
         private val editDeviceButton: Button = itemView.findViewById(R.id.editDeviceButton)
         private val deleteDeviceButton: Button = itemView.findViewById(R.id.deleteDeviceButton)
         private val consumoEnergeticoRecyclerView: RecyclerView = itemView.findViewById(R.id.consumoEnergeticoRecyclerView)
@@ -71,12 +67,12 @@ class DispositivoAdapter(
                 }
             }
 
-            addConsumoButton.setOnClickListener {
-                val context = itemView.context
-                val intent = Intent(context, NewEnergyConsumptionActivity::class.java)
-                intent.putExtra("id_dispositivo", dispositivo.id_dispositivo)
-                context.startActivity(intent)
-            }
+//            addConsumoButton.setOnClickListener {
+//                val context = itemView.context
+//                val intent = Intent(context, NewEnergyConsumptionActivity::class.java)
+//                intent.putExtra("id_dispositivo", dispositivo.id_dispositivo)
+//                context.startActivity(intent)
+//            }
 
             editDeviceButton.setOnClickListener {
                 val context = itemView.context
